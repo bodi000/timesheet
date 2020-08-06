@@ -30,7 +30,7 @@ class TestBeginEnd(common.TransactionCase):
             'time_stop': 12.,
         })
         line.onchange_hours_start_stop()
-        self.assertEquals(line.unit_amount, 2)
+        self.assertEqual(line.unit_amount, 2)
 
     def test_check_begin_before_end(self):
         line = self.base_line.copy()
@@ -50,7 +50,7 @@ class TestBeginEnd(common.TransactionCase):
             'time_stop': 12.,
             'unit_amount': 5.,
         })
-        with self.assertRaisesRegexp(exceptions.ValidationError, message_re):
+        with self.assertRaisesRegex(exceptions.ValidationError, message_re):
             self.timesheet_line_model.create(line)
 
     def test_check_overlap(self):
@@ -66,13 +66,13 @@ class TestBeginEnd(common.TransactionCase):
         line3 = self.base_line.copy()
 
         line3.update({'time_start': 9., 'time_stop': 11, 'unit_amount': 2.})
-        with self.assertRaisesRegexp(exceptions.ValidationError, message_re):
+        with self.assertRaisesRegex(exceptions.ValidationError, message_re):
             self.timesheet_line_model.create(line3)
 
         line3.update({'time_start': 13., 'time_stop': 15, 'unit_amount': 2.})
-        with self.assertRaisesRegexp(exceptions.ValidationError, message_re):
+        with self.assertRaisesRegex(exceptions.ValidationError, message_re):
             self.timesheet_line_model.create(line3)
 
         line3.update({'time_start': 8., 'time_stop': 15, 'unit_amount': 7.})
-        with self.assertRaisesRegexp(exceptions.ValidationError, message_re):
+        with self.assertRaisesRegex(exceptions.ValidationError, message_re):
             self.timesheet_line_model.create(line3)
